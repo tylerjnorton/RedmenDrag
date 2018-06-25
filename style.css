@@ -1,18 +1,64 @@
-html, body{
-	margin:0;
-	overflow:hidden;
-	background: url('images/bg.jpg') no-repeat;
-	background-size: 100%;
+html,
+body {
+  margin: 0;
+  overflow: hidden;
+}
+.home {
+  background: url("images/bg.jpg") no-repeat;
+  background-size: 100%;
+}
+#dndcanvas {
+  height: 100vh;
+  width: 80vw;
 }
 
-#dndcanvas{
-	background:rgba(10, 10, 1, 0);
-	height:100vh;
-	width:100vw;
+.uipanel {
+  width: 20vw;
+  height: 100vw;
 }
 
-#firmino{
-	height: 100px;
-	width: 100px;
-	background: url('images/Firmino.jpg') ;
+.btn {
+  background: #d93434;
+  background-image: -webkit-linear-gradient(top, #d93434, #a60505);
+  background-image: -moz-linear-gradient(top, #d93434, #a60505);
+  background-image: -ms-linear-gradient(top, #d93434, #a60505);
+  background-image: -o-linear-gradient(top, #d93434, #a60505);
+  background-image: linear-gradient(to bottom, #d93434, #a60505);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 19px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #a30000;
+  text-decoration: none;
+}
+.upload {
+  background: #ddd;
+  height: 100%;
+  width: 100%;
+  margin: 30px;
+  color: black;
+}
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  columns: 4;
+}
+li {
+  position: relative;
+}
+li img {
+  height: 50px;
+  width: 50px;
+}
+li span {
+  position: absolute;
+  top: 30%;
+  left: 60px;
 }
