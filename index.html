@@ -2,18 +2,25 @@
 <html lang="en">
 
 <head>
-
-
+  <!-- <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyD2_BcVzwKFQBn0czQsdCQqyM-tRV914FU",
+      authDomain: "redmendrag.firebaseapp.com",
+      databaseURL: "https://redmendrag.firebaseio.com",
+      projectId: "redmendrag",
+      storageBucket: "",
+      messagingSenderId: "507292806103"
+    };
+    firebase.initializeApp(config);
+  </script> -->
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body class="home">
-  <div class="uipanel">
-    <button class="btn">Add Player</button>
-  </div>
   <canvas id="dndcanvas">
     Sorry, canvas not supported
   </canvas>
-
-  <script src="js.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
