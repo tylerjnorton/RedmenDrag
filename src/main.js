@@ -68,9 +68,9 @@ function draw() {
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
   images.forEach(image => image.draw(context));
 
-  context.font = "30px Helvetica";
+  context.font = "50px Georgia Bold";
   context.fillStyle = "white";
-  context.fillText("Liverpool players", 220, 75);
+  context.fillText("Liverpool FC", 240, 85);
 }
 
 // Initialise our object
