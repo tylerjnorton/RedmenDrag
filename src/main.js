@@ -6,10 +6,12 @@ const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
 const background = new Image();
 background.src = "images/background.png";
 
-if (canvas.requestFullscreen) {
+if (canvas.requestFullscreen || canvas.webkitRequestFullscreen) {
   requestFullScreenBtn.addEventListener("click", event => {
     event.preventDefault();
-    canvas.requestFullscreen();
+    canvas.requestFullscreen
+      ? canvas.requestFullscreen()
+      : canvas.webkitRequestFullscreen();
   });
 } else {
   requestFullScreenBtn.setAttribute("disabled", true);
