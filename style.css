@@ -4,6 +4,10 @@ body {
   overflow: hidden;
 }
 
+.uipanel {
+  padding: 20px;
+}
+
 .btn {
   background: #d93434;
   background-image: -webkit-linear-gradient(top, #d93434, #a60505);

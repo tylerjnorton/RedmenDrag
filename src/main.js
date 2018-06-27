@@ -2,8 +2,18 @@ const IMAGE_SIZE = 150;
 const IMAGE_BUFFER = 28;
 const PER_ROW = 4;
 const canvas = document.getElementById("dndcanvas");
+const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
 const background = new Image();
 background.src = "images/background.png";
+
+if (canvas.requestFullscreen) {
+  requestFullScreenBtn.addEventListener("click", event => {
+    event.preventDefault();
+    canvas.requestFullscreen();
+  });
+} else {
+  requestFullScreenBtn.setAttribute("disabled", true);
+}
 
 class PlayerImage {
   constructor(str, coordinates) {
