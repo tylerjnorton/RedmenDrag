@@ -20,41 +20,53 @@ addPlayerBtn.addEventListener("click", async event => {
     return;
   }
 
-  const playerRef = await playersCollection.add({
-    playerName
-  });
+  const playerRef = await playersCollection.doc();
 
   const fileRef = firebase
     .storage()
     .ref()
     .child(playerRef.id);
-  await fileRef.put(file);
+
+  const uploadProgress = fileRef.put(file);
+
+  uploadProgress.on(
+    "state_changed",
+    snapshot => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload Progress: ${progress}%`);
+    },
+    error => console.error(error),
+    () => {
+      playerRef.set({ playerName });
+      playerNameInput.value = "";
+      uploadInput.value = "";
+    }
+  );
 });
 
 playersCollection.onSnapshot(querySnapshot => {
   while (redmenList.firstElementChild) {
     redmenList.firstElementChild.remove();
   }
-  console.log(
-    querySnapshot.forEach(async doc => {
-      const { playerName, id } = doc.data();
-      const li = document.createElement("li");
-      const img = document.createElement("img");
-      const span = document.createElement("span");
 
-      const url = await firebase
-        .storage()
-        .ref()
-        .child(doc.id)
-        .getDownloadURL();
+  querySnapshot.forEach(async doc => {
+    const { playerName, id } = doc.data();
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    const span = document.createElement("span");
 
-      img.src = url;
-      span.innerText = playerName;
+    const url = await firebase
+      .storage()
+      .ref()
+      .child(doc.id)
+      .getDownloadURL();
 
-      li.appendChild(img);
-      li.appendChild(span);
+    img.src = url;
+    span.innerText = playerName;
 
-      redmenList.appendChild(li);
-    })
-  );
+    li.appendChild(img);
+    li.appendChild(span);
+
+    redmenList.appendChild(li);
+  });
 });
