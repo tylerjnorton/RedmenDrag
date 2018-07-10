@@ -33,6 +33,8 @@ addPlayerBtn.addEventListener("click", async event => {
     "state_changed",
     snapshot => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      addPlayerBtn.setAttribute("disabled", true);
+      addPlayerBtn.innerText = "Uploading...";
       console.log(`Upload Progress: ${progress}%`);
     },
     error => console.error(error),
@@ -40,33 +42,34 @@ addPlayerBtn.addEventListener("click", async event => {
       playerRef.set({ playerName });
       playerNameInput.value = "";
       uploadInput.value = "";
+      addPlayerBtn.setAttribute("disabled", true);
+      addPlayerBtn.innerText = "Add Player";
     }
   );
 });
 
-playersCollection.onSnapshot(querySnapshot => {
-  while (redmenList.firstElementChild) {
-    redmenList.firstElementChild.remove();
-  }
+playersCollection.orderBy("playerName").onSnapshot(snap => {
+  snap.docChanges().forEach(async change => {
+    if (change.type === "added") {
+      const { playerName } = change.doc.data();
+      // console.log(playerName);
+      const li = document.createElement("li");
+      const img = document.createElement("img");
+      const span = document.createElement("span");
 
-  querySnapshot.forEach(async doc => {
-    const { playerName, id } = doc.data();
-    const li = document.createElement("li");
-    const img = document.createElement("img");
-    const span = document.createElement("span");
+      const url = await firebase
+        .storage()
+        .ref()
+        .child(change.doc.id)
+        .getDownloadURL();
 
-    const url = await firebase
-      .storage()
-      .ref()
-      .child(doc.id)
-      .getDownloadURL();
+      img.src = url;
+      span.innerText = playerName;
 
-    img.src = url;
-    span.innerText = playerName;
+      li.appendChild(img);
+      li.appendChild(span);
 
-    li.appendChild(img);
-    li.appendChild(span);
-
-    redmenList.appendChild(li);
+      redmenList.appendChild(li);
+    }
   });
 });
