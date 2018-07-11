@@ -52,10 +52,12 @@ playersCollection.orderBy("playerName").onSnapshot(snap => {
   snap.docChanges().forEach(async change => {
     if (change.type === "added") {
       const { playerName } = change.doc.data();
-      // console.log(playerName);
+      console.log(playerName);
       const li = document.createElement("li");
       const img = document.createElement("img");
       const span = document.createElement("span");
+
+      redmenList.appendChild(li);
 
       const url = await firebase
         .storage()
@@ -68,8 +70,6 @@ playersCollection.orderBy("playerName").onSnapshot(snap => {
 
       li.appendChild(img);
       li.appendChild(span);
-
-      redmenList.appendChild(li);
     }
   });
 });
