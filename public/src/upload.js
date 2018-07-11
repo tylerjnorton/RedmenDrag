@@ -49,27 +49,33 @@ addPlayerBtn.addEventListener("click", async event => {
 });
 
 playersCollection.orderBy("playerName").onSnapshot(snap => {
-  snap.docChanges().forEach(async change => {
-    if (change.type === "added") {
-      const { playerName } = change.doc.data();
-      console.log(playerName);
-      const li = document.createElement("li");
-      const img = document.createElement("img");
-      const span = document.createElement("span");
+  redmenList.innerHTML = "";
+  snap.forEach(async doc => {
+    const { playerName } = doc.data();
+    console.log(playerName);
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    const span = document.createElement("span");
+    const button = document.createElement("button");
 
-      redmenList.appendChild(li);
+    button.addEventListener("click", event => {
+      playersCollection.doc(doc.id).delete();
+    });
 
-      const url = await firebase
-        .storage()
-        .ref()
-        .child(change.doc.id)
-        .getDownloadURL();
+    redmenList.appendChild(li);
 
-      img.src = url;
-      span.innerText = playerName;
+    const url = await firebase
+      .storage()
+      .ref()
+      .child(doc.id)
+      .getDownloadURL();
 
-      li.appendChild(img);
-      li.appendChild(span);
-    }
+    img.src = url;
+    span.innerText = playerName;
+    button.innerText = "Delete";
+
+    li.appendChild(img);
+    li.appendChild(span);
+    li.appendChild(button);
   });
 });
