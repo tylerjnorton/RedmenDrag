@@ -54,6 +54,12 @@ class PlayerImage {
   async draw(context) {
     const image = await this.imagePromise;
     const { x, y, width, height } = this.position;
+
+    if (this.isSelected) {
+      context.fillStyle = "#f9a602";
+      context.fillRect(x - 10, y - 10, width + 20, height + 20);
+    }
+
     context.drawImage(image, x, y, width, height);
   }
 }
@@ -94,7 +100,7 @@ async function main() {
 
     // Clear the canvas
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
-    console.log(images);
+
     images.forEach(image => image.draw(context));
 
     context.font = "50px Georgia Bold";
@@ -127,6 +133,31 @@ async function main() {
 
         return detectHit(x, y, pageX, pageY, width, height);
       });
+
+    if (CURRENT_DRAG_ITEM) {
+      const now = new Date().getTime();
+
+      if (
+        CURRENT_DRAG_ITEM &&
+        CURRENT_DRAG_ITEM.last_touched &&
+        now - CURRENT_DRAG_ITEM.last_touched < 600
+      ) {
+        images.forEach(item => {
+          if (item === CURRENT_DRAG_ITEM) {
+            item.isSelected = !item.isSelected;
+          } else {
+            item.isSelected = false;
+          }
+        });
+
+        CURRENT_DRAG_ITEM.last_touched = null;
+
+        draw();
+        return;
+      }
+
+      CURRENT_DRAG_ITEM.last_touched = now;
+    }
 
     if (CURRENT_DRAG_ITEM) {
       const copy = images.slice();
