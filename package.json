@@ -1,0 +1,14 @@
+{
+  "name": "RedmenDrag",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:tylerjnorton/RedmenDrag.git",
+  "author": "Adam <(none)>",
+  "license": "MIT",
+  "scripts": {
+    "start": "serve public"
+  },
+  "dependencies": {
+    "serve": "^9.2.0"
+  }
+}
