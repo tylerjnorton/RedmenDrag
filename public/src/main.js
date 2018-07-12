@@ -1,7 +1,9 @@
+/* FUCK YOU ADAM */
+
 import Button from "./button.js";
 
-const IMAGE_SIZE = 150;
-const IMAGE_BUFFER = 28;
+const IMAGE_SIZE = window.innerWidth / 12;
+const IMAGE_BUFFER = 10;
 const PER_ROW = 4;
 const canvas = document.getElementById("dndcanvas");
 const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
@@ -22,7 +24,7 @@ function myFunction() {
 }
 
 // Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (!event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -115,17 +117,14 @@ async function main() {
 
     images.forEach(image => image.draw(context));
 
-    context.font = "50px Georgia Bold";
-    context.fillStyle = "white";
-    context.fillText("Liverpool FC", 240, 85);
 
     // nextButton.render(context);
   }
 
   // Initialise our object
 
-  canvas.width = 1920;
-  canvas.height = 1080;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
   let CURRENT_DRAG_ITEM = null;
   let CURRENT_PAGE = 0;
@@ -223,7 +222,7 @@ async function main() {
   canvas.addEventListener("touchend", event => {
     if (CURRENT_DRAG_ITEM) {
       const image = CURRENT_DRAG_ITEM;
-      if (image.position.x < 730) {
+      if (image.position.x < window.innerWidth / 3) {
         const index = image.position.index;
 
         image.position.x =
