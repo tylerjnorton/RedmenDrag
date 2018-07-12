@@ -1,15 +1,8 @@
 import Button from "./button.js";
 
-<<<<<<< HEAD
-const TOP_PADDING = 10;
-const IMAGE_SIZE = window.innerWidth / 12;
-const IMAGE_BUFFER = window.innerWidth / 100;
-const PER_ROW = 4;
-=======
 const IMAGE_SIZE = window.innerWidth / 15.5;
 const IMAGE_BUFFER = window.innerWidth / 140;
 const PER_ROW = 5;
->>>>>>> 434f6b927d5262df67d37a5604545f2b0e4dd7ea
 const canvas = document.getElementById("dndcanvas");
 const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
 
@@ -103,16 +96,13 @@ async function main() {
 
       return new PlayerImage(url, {
         index,
-<<<<<<< HEAD
-        x: (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER,
+        x:
+          window.innerWidth / 50 +
+          (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) +
+          IMAGE_BUFFER,
         y:
-          TOP_PADDING +
           (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) +
           IMAGE_BUFFER,
-=======
-        x: window.innerWidth / 50 + (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER,
-        y: (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) + IMAGE_BUFFER,
->>>>>>> 434f6b927d5262df67d37a5604545f2b0e4dd7ea
         width: IMAGE_SIZE,
         height: IMAGE_SIZE
       });
@@ -234,17 +224,13 @@ async function main() {
       if (image.position.x < window.innerWidth / 3) {
         const index = image.position.index;
 
-<<<<<<< HEAD
         image.position.x =
-          (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER;
+          window.innerWidth / 50 +
+          (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) +
+          IMAGE_BUFFER;
         image.position.y =
-          TOP_PADDING +
           (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) +
           IMAGE_BUFFER;
-=======
-        image.position.x = window.innerWidth / 50 + (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER;
-        image.position.y = (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) + IMAGE_BUFFER;
->>>>>>> 434f6b927d5262df67d37a5604545f2b0e4dd7ea
 
         draw();
       }
