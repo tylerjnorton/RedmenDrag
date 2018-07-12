@@ -42,7 +42,7 @@ addPlayerBtn.addEventListener("click", async event => {
       playerRef.set({ playerName });
       playerNameInput.value = "";
       uploadInput.value = "";
-      addPlayerBtn.setAttribute("disabled", true);
+      addPlayerBtn.setAttribute("disabled", false);
       addPlayerBtn.innerText = "Add Player";
     }
   );
