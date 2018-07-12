@@ -1,8 +1,19 @@
+import Button from "./button.js";
+
 const IMAGE_SIZE = 150;
 const IMAGE_BUFFER = 28;
 const PER_ROW = 4;
 const canvas = document.getElementById("dndcanvas");
 const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
+
+const nextButton = new Button({
+  color: "purple",
+  x: 500,
+  y: 900,
+  width: 200,
+  height: 75,
+  text: "Next"
+});
 
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
@@ -84,6 +95,7 @@ async function main() {
         .getDownloadURL();
 
       return new PlayerImage(url, {
+        index,
         x: (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER,
         y:
           100 +
@@ -106,6 +118,8 @@ async function main() {
     context.font = "50px Georgia Bold";
     context.fillStyle = "white";
     context.fillText("Liverpool FC", 240, 85);
+
+    // nextButton.render(context);
   }
 
   // Initialise our object
@@ -114,10 +128,23 @@ async function main() {
   canvas.height = 1080;
 
   let CURRENT_DRAG_ITEM = null;
+  let CURRENT_PAGE = 0;
 
   // // Add eventlistener to canvas
 
   canvas.addEventListener("touchstart", event => {
+    // const { x, y, width, height } = nextButton.position;
+    // const { pageX: pageX1, pageY: pageY1 } = event.targetTouches[0];
+    // // const rect = canvas.getBoundingClientRect();
+
+    // const { offsetTop, offsetLeft } = event.target;
+
+    // let pageY = pageY1 - offsetTop;
+    // let pageX = pageX1 - offsetLeft;
+    // if (detectHit(x, y, pageX, pageY, width, height)) {
+    //   console.log("Clicked button");
+    // }
+
     CURRENT_DRAG_ITEM = images
       .slice()
       .reverse()
@@ -192,6 +219,24 @@ async function main() {
     },
     false
   );
+
+  canvas.addEventListener("touchend", event => {
+    if (CURRENT_DRAG_ITEM) {
+      const image = CURRENT_DRAG_ITEM;
+      if (image.position.x < 730) {
+        const index = image.position.index;
+
+        image.position.x =
+          (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER;
+        image.position.y =
+          100 +
+          (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) +
+          IMAGE_BUFFER;
+
+        draw();
+      }
+    }
+  });
 
   background.src = "images/background.png";
   background.onload = () => {
