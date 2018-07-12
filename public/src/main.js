@@ -1,8 +1,8 @@
 import Button from "./button.js";
 
-const IMAGE_SIZE = 100;
-const IMAGE_BUFFER = 20;
-const PER_ROW = 5;
+const IMAGE_SIZE = 150;
+const IMAGE_BUFFER = 28;
+const PER_ROW = 4;
 const canvas = document.getElementById("dndcanvas");
 const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
 
@@ -22,7 +22,7 @@ function myFunction() {
 }
 
 // Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
+window.onclick = function(event) {
   if (!event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -124,8 +124,8 @@ async function main() {
 
   // Initialise our object
 
-  canvas.width = 1280;
-  canvas.height = 720;
+  canvas.width = 1920;
+  canvas.height = 1080;
 
   let CURRENT_DRAG_ITEM = null;
   let CURRENT_PAGE = 0;
