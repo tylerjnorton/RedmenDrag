@@ -1,5 +1,6 @@
 import Button from "./button.js";
 
+const TOP_PADDING = 10;
 const IMAGE_SIZE = window.innerWidth / 12;
 const IMAGE_BUFFER = window.innerWidth / 100;
 const PER_ROW = 4;
@@ -22,7 +23,7 @@ function myFunction() {
 }
 
 // Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
+window.onclick = function(event) {
   if (!event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -98,7 +99,7 @@ async function main() {
         index,
         x: (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER,
         y:
-          100 +
+          TOP_PADDING +
           (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) +
           IMAGE_BUFFER,
         width: IMAGE_SIZE,
@@ -114,7 +115,6 @@ async function main() {
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
     images.forEach(image => image.draw(context));
-
 
     // nextButton.render(context);
   }
@@ -226,7 +226,7 @@ async function main() {
         image.position.x =
           (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) + IMAGE_BUFFER;
         image.position.y =
-          100 +
+          TOP_PADDING +
           (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) +
           IMAGE_BUFFER;
 

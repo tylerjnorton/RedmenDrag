@@ -6,9 +6,11 @@
   "author": "Adam <(none)>",
   "license": "MIT",
   "scripts": {
-    "start": "serve public"
+    "start": "serve public",
+    "deploy": "firebase deploy --token $(cat token.txt) -m \"Commit: $(git rev-parse HEAD)\""
   },
   "dependencies": {
+    "firebase-tools": "^3.19.3",
     "serve": "^9.2.0"
   }
 }
