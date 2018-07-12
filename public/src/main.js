@@ -1,9 +1,7 @@
-/* FUCK YOU ADAM */
-
 import Button from "./button.js";
 
 const IMAGE_SIZE = window.innerWidth / 12;
-const IMAGE_BUFFER = 10;
+const IMAGE_BUFFER = window.innerWidth / 100;
 const PER_ROW = 4;
 const canvas = document.getElementById("dndcanvas");
 const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
