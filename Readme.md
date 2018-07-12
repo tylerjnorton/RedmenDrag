@@ -6,14 +6,12 @@ Then Run `npm start`
 
 ## Deploying
 
-#### First time? Generate token
+#### First time? Login first
 
 `npm install`
 
-`npm run firebase login:ci`
+`npm run firebase login`
 
-FOllow the steps and login via google. Put the resulting token into a file called `token.txt`.
-
-#### Already have a token?
+#### Already connected?
 
 `npm run deploy`
