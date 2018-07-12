@@ -10,7 +10,7 @@ Then Run `npm start`
 
 `npm install`
 
-`npm run firebase login`
+`npx firebase login`
 
 #### Already connected?
 
