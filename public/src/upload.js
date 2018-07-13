@@ -50,6 +50,7 @@ addPlayerBtn.addEventListener("click", async event => {
 
 playersCollection.orderBy("playerName").onSnapshot(snap => {
   redmenList.innerHTML = "";
+  const list = [];
   snap.forEach(async doc => {
     const { playerName } = doc.data();
     console.log(playerName);
@@ -62,7 +63,8 @@ playersCollection.orderBy("playerName").onSnapshot(snap => {
       playersCollection.doc(doc.id).delete();
     });
 
-    redmenList.appendChild(li);
+    list.push(li);
+    li.__playerName = playerName;
 
     const url = await firebase
       .storage()
@@ -78,4 +80,12 @@ playersCollection.orderBy("playerName").onSnapshot(snap => {
     li.appendChild(span);
     li.appendChild(button);
   });
+
+  list.sort((a, b) =>
+    (a.__playerName || "")
+      .toLowerCase()
+      .localeCompare((b.__playerName || "").toLowerCase())
+  );
+
+  list.forEach(li => redmenList.appendChild(li));
 });
