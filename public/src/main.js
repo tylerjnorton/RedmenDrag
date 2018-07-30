@@ -38,7 +38,8 @@ window.onclick = function(event) {
 const playersCollection = firebase
   .firestore()
   .collection("players")
-  .orderBy("playerName");
+  .orderBy("playerName")
+  .where("isSelected", "==", true);
 
 if (canvas.requestFullscreen || canvas.webkitRequestFullscreen) {
   requestFullScreenBtn.addEventListener("click", event => {

@@ -51,16 +51,24 @@ addPlayerBtn.addEventListener("click", async event => {
 playersCollection.orderBy("playerName").onSnapshot(snap => {
   redmenList.innerHTML = "";
   const list = [];
+
   snap.forEach(async doc => {
-    const { playerName } = doc.data();
+    const { playerName, isSelected } = doc.data();
     console.log(playerName);
     const li = document.createElement("li");
     const img = document.createElement("img");
     const span = document.createElement("span");
     const button = document.createElement("button");
+    const checkbox = document.createElement("input");
 
     button.addEventListener("click", event => {
       playersCollection.doc(doc.id).delete();
+    });
+
+    checkbox.addEventListener("change", event => {
+      playersCollection
+        .doc(doc.id)
+        .update({ isSelected: event.target.checked });
     });
 
     list.push(li);
@@ -75,10 +83,13 @@ playersCollection.orderBy("playerName").onSnapshot(snap => {
     img.src = url;
     span.innerText = playerName;
     button.innerText = "Delete";
+    checkbox.type = "checkbox";
+    checkbox.checked = isSelected;
 
     li.appendChild(img);
     li.appendChild(span);
     li.appendChild(button);
+    li.appendChild(checkbox);
   });
 
   list.sort((a, b) =>
