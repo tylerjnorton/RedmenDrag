@@ -1,7 +1,6 @@
 html,
 body {
   margin: 0;
-  overflow: hidden;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
@@ -83,8 +82,6 @@ UPLOAD PAGE ONLY CSS
 */
 
 .upload {
-  height: 100%;
-  width: 100%;
   padding: 30px;
   color: black;
   background: #eee;
@@ -93,12 +90,11 @@ UPLOAD PAGE ONLY CSS
 #playerNameInput {
   font-size: 16px;
   background: none;
-  text:black;
   border: black solid 2px;
   padding: 5px;
   margin-right: 20px;
 }
-#addPlayerBtn{
+#addPlayerBtn {
   padding: 8px 10px;
   background: none;
   border: black solid 2px;
@@ -106,34 +102,35 @@ UPLOAD PAGE ONLY CSS
 }
 ul {
   list-style-type: none;
-  padding-left: 0;
-  columns: 4;
-  width: 90%;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
 }
 li {
-  position: relative;
-  background: #ADD8E6;
-  margin-bottom: 8px;
   height: 50px;
+  background: #add8e6;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
 }
+
+li input {
+  align-self: center;
+  margin: 0 8px;
+}
+
 li img {
-  position: absolute;
-  left: 30px;
   height: 50px;
   width: 50px;
+  margin: 0 8px;
 }
+
 li span {
-  position: absolute;
-  top: 2px;
-  left: 90px;
+  align-self: center;
 }
+
 li button {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-}
-li input[type='checkbox'] {
-  position: absolute;
-  top: 18px;
-  left: 5px;
+  padding: 0 16px;
 }
