@@ -12,14 +12,14 @@ export default () => (
             <ul id="redmenList">
               {players.map(player => (
                 <li key={player.id}>
-                  <img src={player.url} />
-                  <span>{player.playerName}</span>
-                  <button onClick={removePlayer(player)}>Delete</button>
                   <input
                     onChange={togglePlayerSelected(player)}
                     type="checkbox"
                     checked={!!player.isSelected}
                   />
+                  <img src={player.url} />
+                  <span>{player.playerName}</span>
+                  <button onClick={removePlayer(player)}>Delete</button>
                 </li>
               ))}
             </ul>

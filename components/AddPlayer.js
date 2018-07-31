@@ -44,10 +44,9 @@ export default class AddPlayer extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2>Add a player by uploading his name and image here.</h2>
+        <h2>Add a player</h2>
         <p>
-          The name will be used when you want to bring that player onto the
-          screen
+          Give a name then pick the file. Players are displayed below alphabetically. Check them off to add them to the pitch.
         </p>
 
         <input
