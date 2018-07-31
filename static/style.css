@@ -124,11 +124,11 @@ li input {
 li img {
   height: 50px;
   width: 50px;
-  margin: 0 8px;
 }
 
 li span {
   align-self: center;
+  padding: 0 8px;
 }
 
 li button {
