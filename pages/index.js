@@ -4,6 +4,9 @@ export default () => (
       <button className="fullscreen" id="requestFullScreenBtn">
         FULLSCREEN
       </button>
+      <button className="fullscreen" id="clearAllBtn">
+        CLEAR
+      </button>
       <div className="title">STARTING XI</div>
 
       <div className="dropdown">
