@@ -2,7 +2,7 @@
 
 Run `npm install`
 
-Then Run `npm start`
+Then Run `npm dev`
 
 ## Deploying
 
