@@ -46,7 +46,8 @@ export default class AddPlayer extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <h2>Add a player</h2>
         <p>
-          Give a name then pick the file. Players are displayed below alphabetically. Check them off to add them to the pitch.
+          Give a name then pick the file. Players are displayed below
+          alphabetically. Check them off to add them to the pitch.
         </p>
 
         <input

@@ -3,3 +3,6 @@ token.txt
 public
 .next
 build
+package-lock.json
+lib
+.merlin

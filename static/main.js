@@ -3,12 +3,22 @@ const IMAGE_BUFFER = window.innerWidth / 140;
 const PER_ROW = 5;
 const canvas = document.getElementById("dndcanvas");
 const requestFullScreenBtn = document.getElementById("requestFullScreenBtn");
-const clearAllBtn = document.querySelector("#clearAllBtn");
+
+const getClearButtonPosition = () => ({
+  x: canvas.width / 3 / 2,
+  y: canvas.height - 110,
+  width: 120,
+  height: 60
+});
 
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
 function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function drawClearButton(context) {
+  context.fillRect(20, 20, 150, 150);
 }
 
 // Close the dropdown menu if the user clicks outside of it
@@ -70,6 +80,19 @@ function detectHit(x1, y1, x2, y2, w, h) {
   return x2 > x1 && x2 < x1 + w && y2 > y1 && y2 < y1 + h;
 }
 
+function detectHitFromEvent(targetPosition, event) {
+  const { x, y, width, height } = targetPosition;
+  const { pageX: pageX1, pageY: pageY1 } = event.targetTouches[0];
+  // const rect = canvas.getBoundingClientRect();
+
+  const { offsetTop, offsetLeft } = event.target;
+
+  let pageY = pageY1 - offsetTop;
+  let pageX = pageX1 - offsetLeft;
+
+  return detectHit(x, y, pageX, pageY, width, height);
+}
+
 async function main() {
   const background = new Image();
   const snapshot = await playersCollection.get();
@@ -107,6 +130,13 @@ async function main() {
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
     images.forEach(image => image.draw(context));
+
+    const { x, y, width, height } = getClearButtonPosition();
+    context.fillStyle = "black";
+    context.fillRect(x, y, width, height);
+    context.font = "30px Arial";
+    context.fillStyle = "white";
+    context.fillText("Reset", canvas.width / 3 / 2 + 18, canvas.height - 70);
   }
 
   // Initialise our object
@@ -120,6 +150,20 @@ async function main() {
   // // Add eventlistener to canvasd
 
   canvas.addEventListener("touchstart", event => {
+    if (detectHitFromEvent(getClearButtonPosition(), event)) {
+      console.log("Clicked Clear reset");
+      images.forEach((image, index) => {
+        image.position.x =
+          window.innerWidth / 50 +
+          (IMAGE_SIZE + IMAGE_BUFFER) * (index % PER_ROW) +
+          IMAGE_BUFFER;
+        image.position.y =
+          (IMAGE_SIZE + IMAGE_BUFFER) * Math.floor(index / PER_ROW) +
+          IMAGE_BUFFER;
+      });
+      draw();
+    }
+
     CURRENT_DRAG_ITEM = images
       .slice()
       .reverse()
@@ -214,7 +258,7 @@ async function main() {
     }
   });
 
-  clearAllBtn.addEventListener("click", () => {
+  /*clearAllBtn.addEventListener("click", () => {
     images.forEach((image, index) => {
       image.position.x =
         window.innerWidth / 50 +
@@ -226,7 +270,7 @@ async function main() {
     });
 
     draw();
-  });
+  });*/
 
   background.src = "/static/images/background.png";
   background.onload = () => {

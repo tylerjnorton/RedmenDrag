@@ -1,22 +1,24 @@
 {
-  "name": "RedmenDrag",
+  "name": "redmen-drag",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:tylerjnorton/RedmenDrag.git",
-  "author": "Adam <(none)>",
-  "license": "MIT",
   "scripts": {
     "build": "next build && next export -o build",
-    "start": "next",
-    "dev": "next",
-    "deploy": "firebase deploy -m \"Commit: $(git rev-parse HEAD)\""
+    "dev-bsb": "concurrently \"bsb -clean-world -make-world -w\" \"next dev\"",
+    "dev": "next dev",
+    "deploy": "next build && next export -o build && firebase deploy -m \"Commit: $(git rev-parse HEAD)\""
   },
   "dependencies": {
-    "firebase-tools": "^3.19.3",
+    "bs-next": "^3.0.0",
+    "firebase-tools": "^4.0.2",
     "next": "^6.1.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "serve": "^9.2.0",
-    "simple-cache-provider": "^0.7.0"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "reason-react": "^0.4.2"
+  },
+  "devDependencies": {
+    "bs-platform": "^4.0.2",
+    "concurrently": "^3.6.1"
   }
 }
