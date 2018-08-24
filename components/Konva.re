@@ -82,8 +82,15 @@ module KImage = {
 
 module SmartImage = {
   /* Its not that smart, it just doesn't create a new Image element on every render */
-  type state = {image: Webapi.Dom.HtmlImageElement.t};
-  type action;
+  type imageStatus =
+    | Loading
+    | Loaded;
+  type state = {
+    image: Webapi.Dom.HtmlImageElement.t,
+    imageStatus,
+  };
+  type action =
+    | ImageLoaded;
 
   let component = ReasonReact.reducerComponent("SmartImage");
 
@@ -105,9 +112,18 @@ module SmartImage = {
     initialState: () => {
       let image = Webapi.Dom.HtmlImageElement.make();
       Webapi.Dom.HtmlImageElement.setSrc(image, imageSrc);
-      {image: image};
+      {image, imageStatus: Loading};
     },
-    reducer: (_action: action, _state: state) => ReasonReact.NoUpdate,
+    didMount: self =>
+      Webapi.Dom.HtmlImageElement.addEventListener(
+        "load",
+        _event => self.send(ImageLoaded),
+        self.state.image,
+      ),
+    reducer: (action, state) =>
+      switch (action) {
+      | ImageLoaded => ReasonReact.Update({...state, imageStatus: Loaded})
+      },
     render: self =>
       <KImage
         x
