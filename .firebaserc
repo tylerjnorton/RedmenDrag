@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "redmendrag"
+    "production": "redmendrag",
+    "dev": "dev-redmendrag"
   }
 }

@@ -1,90 +1,112 @@
-type readyForAddType = {playerName: string, fileInputRef: ref(option(Dom.element)),};
-
-type uploadingType = {progress: int};
-
-type state =
-  | ReadyForAdd(readyForAddType)
-  | Uploading(uploadingType);
-
-let setFileInputRef = (theRef, {ReasonReact.state}) =>
-  {
-	  switch(state) {
-	  | ReadyForAdd(obj) => obj.fileInputRef := theRef
-	  | Uploading(_) => ()
-	  }
-  };
-
-let handleSubmit = (state, event) => {
-  event |> ReactEventRe.Form.preventDefault;
-  switch (state) {
-  | ReadyForAdd(_) => Js.log("Ready to Add New")
-  | Uploading(_) => Js.log("Current Uploading")
-  };
+type form = {
+  playerName: string,
+  file: option(Types.file),
 };
 
+type state =
+  | Uploading
+  | WaitingForAdd(form);
+
 type action =
-  | SetNewPlayerName(string);
+  | SetNewPlayerName(string)
+  | SetFile(option(Types.file))
+  | Upload(string, Types.file)
+  | UploadEnded;
 
 let component = ReasonReact.reducerComponent("AddPlayer");
 
-let make = _children => {
+let handleSubmit = (event, {ReasonReact.state, ReasonReact.send}) => {
+  event->ReactEvent.Form.preventDefault;
+  switch (state) {
+  | Uploading => Js.log("Cant submit again")
+  | WaitingForAdd({playerName, file}) =>
+    switch (file) {
+    | Some(file) => send(Upload(playerName, file))
+    | None => Js.log("No File..")
+    }
+  };
+};
+
+let make = (~user: Types.user, _children) => {
   ...component,
-  initialState: () => {
-    fileInputRef: ref(None),
-    status: ReadyForAdd({playerName: ""}),
-  },
-  reducer: (action, state) =>
-    switch (action) {
-    | SetNewPlayerName(newName) =>
-      ReasonReact.Update({
-        ...state,
-        status: ReadyForAdd({playerName: newName}),
-      })
+  initialState: () => WaitingForAdd({file: None, playerName: ""}),
+  reducer: (action: action, state: state) =>
+    switch (state) {
+    | WaitingForAdd(form) =>
+      switch (action) {
+      | SetNewPlayerName(playerName) =>
+        ReasonReact.Update(WaitingForAdd({...form, playerName}))
+      | SetFile(file) => ReasonReact.Update(WaitingForAdd({...form, file}))
+      | Upload(playerName, file) =>
+        ReasonReact.UpdateWithSideEffects(
+          Uploading,
+          (
+            self =>
+              Firebase.addPlayer(~user, ~playerName, ~file)
+              |> Repromise.wait(() => self.send(UploadEnded))
+          ),
+        )
+      | UploadEnded => ReasonReact.NoUpdate
+      }
+    | Uploading =>
+      switch (action) {
+      | SetNewPlayerName(_)
+      | SetFile(_)
+      | Upload(_, _) => ReasonReact.NoUpdate
+      | UploadEnded =>
+        ReasonReact.Update(WaitingForAdd({playerName: "", file: None}))
+      }
     },
-  shouldUpdate: ({oldSelf, newSelf}) => oldSelf.state !== newSelf.state,
   render: self =>
-    <form onSubmit=(handleSubmit(self.state))>
-      <h2> (ReasonReact.string("Add a player")) </h2>
+    <form onSubmit={self.handle(handleSubmit)}>
+      <h2> {ReasonReact.string("Add a player")} </h2>
       <p>
-        (
+        {
           ReasonReact.string(
             "Give a name then pick the file. "
             ++ "Players are displayed alphabetically below. "
             ++ "Check them off to add them to the pitch.",
           )
-        )
+        }
       </p>
-      <input
-        id="playerNameInput"
-        _type="text"
-        required=true
-        placeholder="Player Name"
-        value="hi"
-        onChange=(
-          event =>
-            self.send(
-              SetNewPlayerName(
-                (
-                  event
-                  |> ReactEventRe.Form.target
-                  |> ReactDOMRe.domElementToObj
-                )##value,
-              ),
-            )
-        )
-      />
-      <input
-        _type="file"
-        required=true
-        accept="image/png, image/jpeg, image/jpg"
-        ref=(self.handle(setFileInputRef))
-      />
+      <div>
+        {
+          switch (self.state) {
+          | Uploading => <div> {ReasonReact.string("Uploading")} </div>
+          | WaitingForAdd({playerName}) =>
+            <div>
+              <input
+                id="playerNameInput"
+                type_="text"
+                required=true
+                placeholder="Player Name"
+                value=playerName
+                onChange=(
+                  event =>
+                    SetNewPlayerName(event->ReactEvent.Form.target##value)
+                    |> self.send
+                )
+              />
+              <input
+                type_="file"
+                required=true
+                accept="image/png, image/jpeg, image/jpg"
+                onChange=(
+                  event => {
+                    let files: array(Types.file) =
+                      event->ReactEvent.Form.target##files;
+                    self.send(SetFile(Belt.Array.get(files, 0)));
+                  }
+                )
+              />
+            </div>
+          }
+        }
+      </div>
       <br />
       <br />
       <button id="addPlayerBtn" disabled=false>
-        (ReasonReact.string("Add Player"))
+        {ReasonReact.string("Add Player")}
       </button>
     </form>,
 };
-
-let default = ReasonReact.wrapReasonForJs(~component, () => make([||]));

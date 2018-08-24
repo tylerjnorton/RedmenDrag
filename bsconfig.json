@@ -1,13 +1,18 @@
 {
   "name": "with-reasonml",
-  "sources": ["components", "pages"],
-  "bs-dependencies": ["reason-react", "bs-next"],
+  "sources": ["pages", "components"],
+  "bs-dependencies": [
+    "reason-react",
+    "bs-next",
+    "@aantron/repromise",
+    "bs-webapi"
+  ],
   "reason": { "react-jsx": 2 },
   "package-specs": {
     "module": "commonjs",
     "in-source": true
   },
   "suffix": ".bs.js",
-  "bsc-flags": ["-bs-super-errors"],
+  "bsc-flags": ["-bs-super-errors", "-bs-g"],
   "refmt": 3
 }

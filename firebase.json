@@ -1,7 +1,6 @@
 {
   "hosting": {
-    "public": "build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "public": "build"
   },
   "firestore": {
     "rules": "firestore.rules",

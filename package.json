@@ -4,22 +4,30 @@
   "main": "index.js",
   "repository": "git@github.com:tylerjnorton/RedmenDrag.git",
   "scripts": {
-    "build": "next build && next export -o build",
-    "dev-bsb": "concurrently \"bsb -clean-world -make-world -w\" \"next dev\"",
-    "dev": "next dev",
-    "start": "next dev",
-    "deploy": "next build && next export -o build && firebase deploy -m \"Commit: $(git rev-parse HEAD)\""
+    "dev": "firebase use dev && node scripts/generateFirebaseConfig.js && concurrently \"bsb -clean-world -make-world -w\" \"next dev\"",
+    "serve": "NODE_ENV=production firebase serve",
+    "build": "node scripts/generateFirebaseConfig.js && bsb -clean-world -make-world && next build && next export -o build",
+    "deploy:dev": "firebase use dev && yarn build && firebase deploy -P dev -m \"Commit: $(git rev-parse --short HEAD)\"",
+    "deploy:production": "firebase use production && yarn build && firebase deploy -P production -m \"Commit: $(git rev-parse --short HEAD)\""
   },
   "dependencies": {
+    "@aantron/repromise": "^0.6.0",
     "bs-next": "^3.0.0",
-    "firebase-tools": "^4.0.2",
+    "bs-webapi": "^0.11.0",
+    "firebase-admin": "~6.0.0",
+    "firebase-functions": "^2.0.3",
+    "konva": "^2.2.2",
     "next": "^6.1.1",
+    "node-fetch": "^2.2.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "reason-react": "^0.4.2"
+    "react-konva": "^1.7.14",
+    "react-motion": "^0.5.2",
+    "reason-react": "^0.5.3"
   },
   "devDependencies": {
-    "bs-platform": "^4.0.2",
-    "concurrently": "^3.6.1"
+    "bs-platform": "^4.0.5",
+    "concurrently": "^3.6.1",
+    "firebase-tools": "^4.2.0"
   }
 }

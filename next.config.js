@@ -1,6 +1,9 @@
 module.exports = {
-  exportPathMap: defaultMap => ({
-    "/": { page: "/" },
-    "/upload": { page: "/upload" }
-  })
+  pageExtensions: ["jsx", "js", "bs.js"],
+  exportPathMap: function() {
+    return {
+      "/": { page: "/" },
+      "/upload": { page: "/upload" }
+    };
+  }
 };
