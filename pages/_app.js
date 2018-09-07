@@ -4,7 +4,7 @@ import { onAuthStateChange } from "../components/firebase";
 import { login } from "../components/firebase";
 
 function Login() {
-  return <button onClick={() => login()}>Login</button>;
+  return <button id="loginbutton" onClick={() => login()}>Login With Google</button>;
 }
 
 export default class MyApp extends App {
@@ -37,8 +37,8 @@ export default class MyApp extends App {
         {this.state.loading ? null : this.state.user ? (
           <Component {...pageProps} user={this.state.user} />
         ) : (
-          <Login />
-        )}
+            <Login />
+          )}
       </Container>
     );
   }
