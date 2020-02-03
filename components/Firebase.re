@@ -26,7 +26,7 @@ let onPlayerChanged = (user, onChange) =>
 [@bs.module "./firebase"]
 external addPlayer:
   (~user: Types.user, ~playerName: string, ~file: Types.file) =>
-  Repromise.t(unit) =
+  Promise.t(unit) =
   "";
 
 [@bs.module "./firebase"]

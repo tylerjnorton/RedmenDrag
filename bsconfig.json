@@ -4,7 +4,7 @@
   "bs-dependencies": [
     "reason-react",
     "bs-next",
-    "@aantron/repromise",
+    "reason-promise",
     "bs-webapi"
   ],
   "reason": { "react-jsx": 2 },

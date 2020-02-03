@@ -43,7 +43,7 @@ let make = (~user: Types.user, _children) => {
           (
             self =>
               Firebase.addPlayer(~user, ~playerName, ~file)
-              |> Repromise.wait(() => self.send(UploadEnded))
+              ->Promise.get(() => self.send(UploadEnded))
           ),
         )
       | UploadEnded => ReasonReact.NoUpdate
